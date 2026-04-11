@@ -1,0 +1,96 @@
+# ──────────────────────────────────────────────
+#  ShopDashboard Helm Chart — dev.values.yaml
+#  Blue-Green via Argo Rollouts
+# ──────────────────────────────────────────────
+
+# Image
+image:
+  registry: "xyz.azurecr.io"             
+  repository: shopdashboard
+  tag: "549"
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: acr-secret
+
+# Replica counts 
+replicaCount: 2
+
+# Argo Rollouts — Blue-Green strategy
+rollout:
+  revisionHistoryLimit: 3
+  autoPromotionEnabled: false   # false = manual
+  autoPromotionSeconds: 0
+  scaleDownDelaySeconds: 30
+
+# Service Account
+serviceAccount:
+  create: true
+  name: "shopdashboard-sa"
+  automount: false
+  annotations: {}
+
+# Service 
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+# Ingress
+ingress:
+  enabled: true
+  className: azure-application-gateway
+  annotations:
+    appgw.ingress.kubernetes.io/backend-path-prefix: "/"
+  host: ui.shopdashboard.online
+  tls:
+    enabled: true
+    secretName: shopdashboard-tls
+  routes:
+    - path: /
+      pathType: Prefix
+      service: shopdashboard-active
+    - path: /staging
+      pathType: Prefix
+      service: shopdashboard-preview
+
+# Resources 
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+# Probes 
+probes:
+  liveness:
+    path: /
+    port: 80
+    initialDelaySeconds: 15
+    periodSeconds: 20
+  readiness:
+    path: /
+    port: 80
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  startup:
+    path: /
+    port: 80
+    failureThreshold: 10
+    periodSeconds: 5
+
+# HPA 
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 80
+
+# Pod settings
+podAnnotations: {}
+podLabels: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}

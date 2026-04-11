@@ -1,0 +1,6 @@
+apiVersion: v2
+name: shopdashboard
+description: ShopDashboard Helm chart with Blue-Green via Argo Rollouts
+type: application
+version: 1.0.0
+appVersion: "v1"
