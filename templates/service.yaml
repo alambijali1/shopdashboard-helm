@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: shopdashboard-active
+  namespace: ui
   labels:
     {{- include "shopdashboard.labels" . | nindent 4 }}
     app.kubernetes.io/slot: active
@@ -21,6 +22,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: shopdashboard-preview
+  namespace: ui
   labels:
     {{- include "shopdashboard.labels" . | nindent 4 }}
     app.kubernetes.io/slot: preview
