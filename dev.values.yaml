@@ -7,7 +7,7 @@
 image:
   registry: "smartac.azurecr.io"             
   repository: shopdashboard
-  tag: "580"
+  tag: ""
   pullPolicy: Always
 
 imagePullSecrets:
