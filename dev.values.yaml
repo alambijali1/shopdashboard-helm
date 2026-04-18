@@ -32,7 +32,8 @@ serviceAccount:
 
 # Service 
 service:
-  type: ClusterIP
+  # type: ClusterIP
+  type: LoadBalancer
   port: 80
   targetPort: 80
 
