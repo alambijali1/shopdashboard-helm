@@ -41,8 +41,7 @@ ingress:
   enabled: true
   className: azure-application-gateway
   annotations:
-    # appgw.ingress.kubernetes.io/backend-path-prefix: "/"
-    kubernetes.io/ingress.class: azure/application-gateway
+     appgw.ingress.kubernetes.io/backend-path-prefix: "/"
   host: ui.shopdashboard.online
   tls:
     enabled: true
