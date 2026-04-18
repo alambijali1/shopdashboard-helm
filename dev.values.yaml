@@ -5,7 +5,7 @@
 
 # Image
 image:
-  registry: "xyz.azurecr.io"             
+  registry: "smartac.azurecr.io"             
   repository: shopdashboard
   tag: "549"
   pullPolicy: Always
