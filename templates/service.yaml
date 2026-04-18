@@ -27,7 +27,7 @@ metadata:
     {{- include "shopdashboard.labels" . | nindent 4 }}
     app.kubernetes.io/slot: preview
 spec:
-  type: ClusterIP
+  type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}
